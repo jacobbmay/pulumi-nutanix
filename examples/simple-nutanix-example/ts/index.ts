@@ -26,10 +26,11 @@ const subnetId = nutanix.getSubnet({subnetName: config.require("subnetName")}, {
 
 const pubKey = config.require("pubkey")
 const joinToken = "examplejointoken123456"
+const vmName = config.require("vmName")
 
 const cloudConfig = `
 #cloud-config
-hostname: bootstrap
+hostname: ${vmName}
 users:
   - name: cloud-user
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
@@ -44,7 +45,7 @@ runcmd:
 `;
 
   const rke2Bootstrap = new nutanix.VirtualMachine("rke2_bootstrap", {
-    name: `bootstrap-node`,
+    name: vmName,
     clusterUuid: clusterId,
     memorySizeMib: 8192,
     numSockets: 1,
